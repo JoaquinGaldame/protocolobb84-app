@@ -1,0 +1,173 @@
+<div class="container mx-auto p-6 bg-gray-50 min-h-screen max-w-full">
+  <p-toast></p-toast>
+  
+  <h1 class="text-3xl font-bold text-center mb-8 text-indigo-800">Simulación del Protocolo BB84</h1>
+  
+  <!-- Formulario -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Configuración de la simulación</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Número de Qubits</label>
+        <p-inputNumber 
+          [(ngModel)]="qubits" 
+          [min]="8" 
+          [max]="64" 
+          mode="decimal" 
+          showButtons 
+          class="w-full"
+          inputId="integeronly">
+        </p-inputNumber>
+        <p class="text-xs text-gray-500 mt-1">Entre 8 y 64 qubits</p>
+      </div>
+      
+      <div class="flex items-center">
+        <p-toggleswitch [(ngModel)]="withEva" class="mr-3"/>
+        <label class="text-sm font-medium text-gray-700">Activar intervención de Eva</label>
+      </div>
+    </div>
+    
+    <div class="mt-6 flex justify-center">
+      <button 
+        pButton 
+        type="button" 
+        label="Ejecutar Simulación" 
+        icon="pi pi-play" 
+        (click)="simulate()" 
+        [loading]="loading"
+        class="bg-indigo-600 hover:bg-indigo-700 border-indigo-600">
+      </button>
+    </div>
+  </div>
+  
+  <!-- Animación de envío de qubits -->
+   @if(animationActive){
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8 text-center">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">Transmitiendo Qubits</h2>
+      
+      <div class="qubit-animation-container relative h-32">
+        @for (i of [].constructor(20); track $index) {
+          <div class="qubit-particle absolute w-4 h-4 bg-indigo-500 rounded-full"></div>
+        }
+      </div>
+      <p class="mt-4 text-gray-600">Simulando el envío de qubits entre Ana y Beto...</p>
+    </div>
+   }
+  
+  <!-- Resultados -->
+   @if(simulationData && !animationActive){
+      <div class="space-y-8 max-h-[20h]">
+        <!-- Gráfico comparativo -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-700">Comparación de Resultados</h2>
+          
+  <div class="relative h-[300px] w-full"> <!-- Altura fija con Tailwind -->
+    <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+  </div>
+  
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-indigo-50 p-4 rounded-lg">
+              <h3 class="font-medium text-indigo-800">Sin Eva</h3>
+              <p class="text-2xl font-bold text-indigo-600">{{ simulationData.porcentaje }}%</p>
+              <p class="text-sm text-gray-600">Coincidencia: {{ simulationData.claveCompartida.length }} bits</p>
+            </div>
+            @if(simulationData.porcentajeConEva !== null){
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <h3 class="font-medium text-pink-800">Con Eva</h3>
+                <p class="text-2xl font-bold text-pink-600">{{ simulationData.porcentajeConEva }}%</p>
+                <p class="text-sm text-gray-600">Coincidencia: {{ simulationData.claveConEva?.length }} bits</p>
+              </div>
+            }
+          </div>
+        </div>
+        
+        <!-- Tabla paso a paso -->
+        <div class="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
+          <h2 class="text-xl font-semibold mb-4 text-gray-700">Detalle Paso a Paso</h2>
+          
+          <p-table 
+            [value]="getStepIndices()" 
+            [paginator]="true" 
+            [rows]="10"
+            [tableStyle]="{'min-width': '650px'}"
+            styleClass="custom-table">
+            <ng-template pTemplate="header">
+              <tr class="bg-gray-100">
+                <th class="p-3 text-left font-semibold">Paso</th>
+                <th class="p-3 text-left font-semibold">Base Ana</th>
+                <th class="p-3 text-left font-semibold">Base Beto</th>
+                @if(withEva){
+                  <th class="p-3 text-left font-semibold">Base Eva</th>
+                }
+                <th class="p-3 text-left font-semibold">Bit Ana</th>
+                <th class="p-3 text-left font-semibold">Bit Beto</th>
+                @if(withEva){
+                  <th class="p-3 text-left font-semibold">Bit Eva</th>
+                }
+                <th class="p-3 text-left font-semibold">Estado Bases</th>
+                <th class="p-3 text-left font-semibold">Estado Bit</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-step>
+              <tr class="border-b hover:bg-gray-50">
+                <td class="p-3">{{ step + 1 }}</td>
+                <td class="p-3 font-mono"> 
+                  <p-tag [value]="simulationData.baseAna[step]" [severity]="getSeverity(simulationData.baseAna[step])" />  
+                </td>
+                <td class="p-3 font-mono">
+                  <p-tag [value]="simulationData.baseBeto[step]" [severity]="getSeverity(simulationData.baseBeto[step])" />  
+                </td>
+                @if(withEva){
+                  <td class="p-3 font-mono">
+                    <p-tag [value]="simulationData.baseEva ? simulationData.baseEva[step] : '-'" [severity]="getSeverity(simulationData.baseEva ? simulationData.baseEva[step] : '-')" />  
+                  </td>
+                }
+                <td class="p-3 font-mono text-center">{{ simulationData.bitsAna[step] }}</td>
+                <td class="p-3 font-mono text-center">{{ simulationData.bitsBeto[step] }}</td>
+                @if(withEva){
+                  <td class="p-3 font-mono text-center">{{ simulationData.bitsBetoEva ? simulationData.bitsBetoEva[step] : '-' }}</td>
+                }
+                  <td class="p-3 text-sm">
+                    <p-tag [value]="getStepDescription(step).baseStatus" [severity]="getSeverityDescrip(getStepDescription(step).baseStatus)" />  
+                  </td>
+                  <td class="p-3 text-sm">
+                    <p-tag [value]="getStepDescription(step).bitStatus" [severity]="getSeverityDescrip(getStepDescription(step).bitStatus)" />  
+                  </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        
+        <!-- Claves resultantes -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Clave Compartida</h2>
+            <div class="flex flex-wrap gap-2">
+            @for (bit of simulationData.claveCompartida; track $index) {
+              <span class="px-3 py-2 bg-indigo-100 text-indigo-800 rounded-lg font-mono">
+                {{ bit }}
+              </span>
+            }
+            </div>
+            <p class="mt-4 text-sm text-gray-600">{{ simulationData.claveCompartida.length }} bits compartidos</p>
+          </div>
+          
+          @if(withEva && simulationData.claveConEva){
+            <div  class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Clave con Intervención de Eva</h2>
+            <div class="flex flex-wrap gap-2">
+              @for (bit of simulationData.claveConEva; track $index) {
+                <span class="px-3 py-2 bg-pink-100 text-pink-800 rounded-lg font-mono">
+                  {{ bit }}
+                </span>
+              }
+            </div>
+            <p class="mt-4 text-sm text-gray-600">{{ simulationData.claveConEva.length }} bits compartidos</p>
+          </div>
+          }
+        </div>
+      </div>
+   }
+
+</div>

@@ -1,0 +1,87 @@
+:root[class='p-dark'] {
+  --card-border: 1px solid transparent;
+  --card-bg: var(--p-surface-900);
+}
+
+.qubit-animation-container {
+  overflow: hidden;
+}
+
+.qubit-particle {
+  animation: sendQubit 2s infinite;
+  opacity: 0;
+}
+
+@keyframes sendQubit {
+  0% {
+    left: -20px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Ajustar el retraso de cada partícula para efecto escalonado */
+.qubit-particle:nth-child(1) { top: 20%; animation-delay: 0s; }
+.qubit-particle:nth-child(2) { top: 40%; animation-delay: 0.2s; }
+.qubit-particle:nth-child(3) { top: 60%; animation-delay: 0.4s; }
+.qubit-particle:nth-child(4) { top: 80%; animation-delay: 0.6s; }
+.qubit-particle:nth-child(5) { top: 30%; animation-delay: 0.8s; }
+.qubit-particle:nth-child(6) { top: 50%; animation-delay: 1s; }
+.qubit-particle:nth-child(7) { top: 70%; animation-delay: 1.2s; }
+.qubit-particle:nth-child(8) { top: 20%; animation-delay: 1.4s; }
+.qubit-particle:nth-child(9) { top: 40%; animation-delay: 1.6s; }
+.qubit-particle:nth-child(10) { top: 60%; animation-delay: 1.8s; }
+.qubit-particle:nth-child(11) { top: 80%; animation-delay: 0.1s; }
+.qubit-particle:nth-child(12) { top: 30%; animation-delay: 0.3s; }
+.qubit-particle:nth-child(13) { top: 50%; animation-delay: 0.5s; }
+.qubit-particle:nth-child(14) { top: 70%; animation-delay: 0.7s; }
+.qubit-particle:nth-child(15) { top: 20%; animation-delay: 0.9s; }
+.qubit-particle:nth-child(16) { top: 40%; animation-delay: 1.1s; }
+.qubit-particle:nth-child(17) { top: 60%; animation-delay: 1.3s; }
+.qubit-particle:nth-child(18) { top: 80%; animation-delay: 1.5s; }
+.qubit-particle:nth-child(19) { top: 30%; animation-delay: 1.7s; }
+.qubit-particle:nth-child(20) { top: 50%; animation-delay: 1.9s; }
+
+
+.custom-table .p-datatable-thead > tr > th {
+  background-color: #f8fafc;
+  color: #334155;
+}
+
+.custom-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.custom-table .p-datatable-tbody > tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Estilos para la paginación */
+.custom-table .p-paginator {
+  background-color: transparent;
+  border: none;
+  padding: 1rem 0;
+}
+
+.custom-table .p-paginator .p-paginator-page.p-highlight {
+  background-color: #4f46e5;
+  color: white;
+  
+}
+
+:host ::ng-deep .p-chart {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0;
+  left: 0;
+}
