@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Bb84Simulator } from './bb84-simulator';
+import { BB84Simulator } from './bb84-simulator.component';
 
 export const BB84_ROUTES: Routes = [
   { 
     path: '', 
-    component: Bb84Simulator
+    component: BB84Simulator
   }
 ];

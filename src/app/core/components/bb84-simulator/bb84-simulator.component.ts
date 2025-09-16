@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 
 
 interface SimulationResponse {
@@ -34,7 +35,7 @@ interface SimulationResponse {
   providers: [MessageService]
 })
 
-export class Bb84Simulator {
+export class BB84Simulator {
   platformId = inject(PLATFORM_ID);
   qubits: number = 16;
   withEva: boolean = false;
@@ -49,6 +50,7 @@ export class Bb84Simulator {
   constructor(
     private cd: ChangeDetectorRef,
     private http: HttpClient, 
+    private router: Router,
     private messageService: MessageService) {
     this.initChart();
   }
@@ -310,5 +312,9 @@ getStepDescription(step: number): { baseStatus: string, bitStatus: string } {
       return [];
     }
     return Array.from({ length: this.simulationData.baseAna.length }, (_, i) => i);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
   }
 }

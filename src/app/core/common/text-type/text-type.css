@@ -1,0 +1,8 @@
+.title {
+  font-size: 3.5em;
+  font-weight: bolder;
+  margin-bottom: 20px;
+  color: #09ff32;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7), 4px 4px 0px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 1px white; /* Borde blanco */
+}

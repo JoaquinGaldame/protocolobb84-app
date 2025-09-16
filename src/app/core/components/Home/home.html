@@ -1,0 +1,74 @@
+<div class="home-container">
+  <app-aurora 
+    [colorStops]="['#5227FF', '#7cff67', '#5227FF']"
+    [amplitude]="1.2"
+    [blend]="0.6"
+    [speed]="1.0"
+    class="fullscreen-aurora">
+  </app-aurora>
+  
+  <!-- Tu contenido sobre el aurora -->
+  <div class="content-overlay">
+    <app-text-type
+    [text]="['Bievenido', 'Simulador del Protocolo BB84']"
+    [typingSpeed]="80"
+    [deletingSpeed]="40"
+    [pauseDuration]="1500"
+    [loop]="true"
+    [textColors]="['#34d399','#09ff32']"
+    cursorCharacter="_"
+    cursorClassName="text-yellow-400 title"
+    (sentenceComplete)="onSentenceDone($event)"
+    ></app-text-type>
+      <p class="description mt-20 text-center text-lg w-[60vw] font-semibold">
+      El Protocolo BB84 es un método de distribución de claves cuánticas que permite
+      a dos partes compartir una clave secreta de forma segura, utilizando las propiedades
+      de la mecánica cuántica.
+    </p>
+    <div class="wrapper mt-20">
+      <a
+        (click)="navigateToSimulator()"
+        class="aButton cursor-pointer"
+      >
+        <span class="aButtonspan1"></span>
+        <span class="aButtonspan1"></span>
+        <span class="aButtonspan1"></span>
+        <span class="aButtonspan1"></span>
+        Simulador BB84
+      </a>
+    </div>
+        <div class="wrapper mt-20">
+      <a
+        (click)="navigateToCode()"
+        class="aButton2 cursor-pointer"
+      >
+        <span class="aButtonspan2"></span>
+        <span class="aButtonspan2"></span>
+        <span class="aButtonspan2"></span>
+        <span class="aButtonspan2"></span>
+        Ver Código
+      </a>
+    </div>
+    <div class="flex flex-col items-center justify-center mt-20">
+      <span class="text-gray-500 text-lg">Joaquin Galdame</span>
+      <span class="text-gray-500 text-lg mt-10">Licenciatura en Ciencias de la Computación</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div class="home-container">
+<app-aurora 
+  [colorStops]="['#3A29FF', '#FF94B4', '#FF3232']"
+  [amplitude]="1.0"
+  [blend]="0.5"
+  [speed]="0.5">
+</app-aurora>
+  <h1 class="title">Introducción al Protocolo BB84</h1>
+  <p class="description">
+    El Protocolo BB84 es un método de distribución de claves cuánticas que permite
+    a dos partes compartir una clave secreta de forma segura, utilizando las propiedades
+    de la mecánica cuántica.
+  </p>
+  <button pButton label="Ir al Simulador" icon="pi pi-play" class="simulator-button" (click)="navigateToSimulator()"></button>
+</div> -->

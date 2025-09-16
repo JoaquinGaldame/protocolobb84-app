@@ -3,8 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
-import appPreset from './core/shared/app-presets';
+import RetroMatrix from './core/shared/app-presets';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -14,9 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     providePrimeNG({
         theme: {
-          preset: appPreset,
+          preset: RetroMatrix,
           options: {
-            darkModeSelector: false || 'none'
+            darkModeSelector: '.dark' 
           }
         }
     }),
